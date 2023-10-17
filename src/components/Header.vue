@@ -1,6 +1,14 @@
 <script>
-export default {
 
+import { store } from '../data/store'
+
+export default {
+    name: 'Header',
+    data(){
+        return{
+            store
+        }
+    }
 }
 </script>
 
@@ -9,11 +17,16 @@ export default {
   
 <header>
     <div class="logo">
-        <img src="/public/logo-boolflix.png" alt="">
+        <img src="/logo-boolflix.png" alt="">
     </div>
     <div class="search">
-        <input type="text">
-        <button class="invio-ricerca">Search</button>
+        <input @keyup.enter="$emit('startSearch')" v-model.trim="store.apiParams.query" type="text" placeholder="Cerca un film" class="form-control">
+        <button @click="$emit('startSearch')" class="invio-ricerca">Search</button>
+        <select class="form-select ms-3">
+            <option value="">All</option>
+            <option value="movie">Film</option>
+            <option value="tv">Serie Tv</option>
+        </select>
     </div>
 </header>
 
@@ -21,6 +34,8 @@ export default {
 
 
 <style scoped lang="scss">
+
+    @use '../scss/vars' as *;
 
     header {
         width: 100%;
@@ -47,6 +62,7 @@ export default {
             border: 1px solid black;
             color: white;
             border-radius: 0 3px 3px 0;
+            margin-right: 15px;
         }
         input {
          border: 1px solid black;
