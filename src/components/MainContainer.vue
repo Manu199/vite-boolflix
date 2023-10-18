@@ -1,9 +1,17 @@
 <script>
 
 import { store } from '../data/store'
+import MovieCard from './partials/MovieCard.vue';
 
 export default {
     name: 'MainContainer',
+    props:{
+        title: String,
+        type: String,
+    },
+    components: {
+        MovieCard
+    },
     data(){
         return{
             store
@@ -15,17 +23,10 @@ export default {
 <template>
   
     <div class="container my-5">
-        <h1>Film</h1>
+        <h1>{{ title }}</h1>
         <div class="row row-cols-4">
 
-            <div v-for="item in store.movie" :key="item.id" class="card m-1">
-                <div class="card-body">
-                    <h5 class="card-title">{{ item.title }}</h5>
-                    <h6 class="card-title">{{ item.original_title }}</h6>
-                    <p class="card-text">{{ item.description     }}</p>
-                    <a href="" class="btn btn-primary">Go</a>
-                </div>
-            </div>
+            <MovieCard v-for="item in store[type]" :key="item.id" class="card m-1" :item="item" />
 
         </div>
     </div>

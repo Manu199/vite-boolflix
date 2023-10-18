@@ -9,7 +9,8 @@ export default {
 
     data() {
         return{
-            store
+            store,
+            message: 'Effettuare una ricerca', 
         }
     },
  
@@ -18,30 +19,49 @@ export default {
         MainContainer
     },
     methods: {
-        getApi(){
-            axios.get(store.apiUrl + '?query=barbie&api_key=e46a0a09ebf9f16cbcaab9d498750ab0&language=it-IT' , {
+        getApi(type){
+            axios.get(store.apiUrl, type, {
                 params: store.apiParams
             })
             
            
             .then(res => {
-                store.movie = res.data.results;
-                console.log(store.movie);
+                // console.log(res.data);
+                store[type] = res.data.results;
+
+                console.log('store.movie', store.movie);
+                console.log('store.tv', store.tv);
+            //     store.movie = res.data.results;
+            //     console.log(store.movie);
+            //     if(store.movie.length === 0){
+            //         this.message = 'Film non trovato'
+            //     }
             })
             .catch(err => {
                 console.log(err);
             })
+        },
+        startSearch(){
+            this.getApi('movie')
+            this.getApi('tv')
         }
     },
     mounted(){
-        this.getApi()
+        
     }
 }
 </script>
 
 <template>
-  <Header @startSearch="getApi" />
-  <MainContainer />
+  <Header @startSearch="startSearch" />
+  <MainContainer v-if="store.movie.length > 0" title="Film" type="movie"/>
+  <MainContainer v-if="store.tv.length > 0" title="Serie TV" type="tv"/>
+  <!-- <MainContainer v-if="store.movie.length > 0" />
+    <div v-else class="container my-5">
+
+        <h3 >{{ message }}</h3>
+        
+    </div> -->
 </template>
 
 <style lang="scss">

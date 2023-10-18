@@ -20,8 +20,10 @@ export default {
         <img src="/logo-boolflix.png" alt="">
     </div>
     <div class="search">
+        
         <input @keyup.enter="$emit('startSearch')" v-model.trim="store.apiParams.query" type="text" placeholder="Cerca un film" class="form-control">
         <button @click="$emit('startSearch')" class="invio-ricerca">Search</button>
+
         <select class="form-select ms-3">
             <option value="">All</option>
             <option value="movie">Film</option>
